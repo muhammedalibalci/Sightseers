@@ -1,31 +1,27 @@
-import AsyncStorage from '@react-native-community/async-storage'
 import React from 'react'
-import {
-    ImageBackground,
-    SafeAreaView,
-    StyleSheet,
-    View,
-    TextInput,
-    Button,
-} from 'react-native'
-import {
-    heightPercentageToDP,
-    widthPercentageToDP,
-} from 'react-native-responsive-screen'
+import { ImageBackground, StyleSheet, View, TextInput, Button } from 'react-native'
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen'
 import welcome from '../../../assets/welcome.png'
-import Signup from './Signup'
 
-export default function Welcome({ navigation }) {
+export default function Signup({ navigation }) {
     return (
-        <SafeAreaView>
-            
-            <View style={styles.container}>
+        <View>
+          <View style={styles.container}>
                 <ImageBackground
                     source={welcome}
                     style={styles.image}
                 ></ImageBackground>
             </View>
             <View style={styles.loginView}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Ad"
+                ></TextInput>
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Soyad"
+                ></TextInput>
                 <TextInput
                     style={styles.input}
                     placeholder="Kullanıcı Adı"
@@ -38,40 +34,34 @@ export default function Welcome({ navigation }) {
             </View>
             <View style={styles.buttonGroup}>
                 <Button
-                    title="Kayıt Ol"
+                    title="Geri Dön"
                     color="#f14902"
                     style={styles.button}
-                    onPress={() => navigation.navigate('Signup')}
+                    onPress={() => navigation.navigate('Welcome')}
+
                 ></Button>
                 <Button
-                    title="Giriş yap"
+                    title="Kayıt Ol"
                     color="#f14902"
                     style={styles.button}
                 ></Button>
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    image: {
-        height: heightPercentageToDP('100%'),
-        width: widthPercentageToDP('100%'),
-        flex: 1,
-    },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+},image: {
+  height: heightPercentageToDP('100%'),
+  width: widthPercentageToDP('100%'),
+  flex: 1,
+},
     loginView: {
         color: 'white',
         marginTop: heightPercentageToDP('50%'),
-    },
-    buttonGroup: {
-        flexDirection: 'row',
-        marginHorizontal: 20,
-        marginTop: 10,
-        justifyContent: 'space-between',
     },
     input: {
         height: 40,
@@ -84,8 +74,12 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     button: {
-        height: 40,
-        marginHorizontal: 20,
-        marginVertical: 10,
+      margin: 50
     },
+    buttonGroup: {
+      flexDirection: 'row',
+      marginHorizontal: 20,
+      marginTop: 10,
+      justifyContent: 'space-between',
+  },
 })
