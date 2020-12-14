@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage'
-import React from 'react'
+import React, { useState } from 'react'
 import {
     ImageBackground,
     SafeAreaView,
@@ -8,17 +8,31 @@ import {
     TextInput,
     Button,
 } from 'react-native'
+import Spinner from 'react-native-loading-spinner-overlay'
 import {
     heightPercentageToDP,
     widthPercentageToDP,
 } from 'react-native-responsive-screen'
 import welcome from '../../../assets/welcome.png'
-import Signup from './Signup'
+import { useDispatch } from 'react-redux'
+import { login } from '../../store/actions/authAction'
 
 export default function Welcome({ navigation }) {
+    const [loading, setLoadig] = useState(false)
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const dispatch = useDispatch();
+
+    const submit = async () => {
+        setLoadig(true)
+        await dispatch(login({ userName: username, password: password }))
+        setLoadig(false)
+    }
+
     return (
         <SafeAreaView>
-            
+            <Spinner visible={loading} />
             <View style={styles.container}>
                 <ImageBackground
                     source={welcome}
@@ -29,11 +43,15 @@ export default function Welcome({ navigation }) {
                 <TextInput
                     style={styles.input}
                     placeholder="Kullanıcı Adı"
+                    onChangeText={username => setUsername(username)}
+                    value={username}
                 ></TextInput>
                 <TextInput
                     style={styles.input}
                     placeholder="Parola"
                     secureTextEntry={true}
+                    onChangeText={password => setPassword(password)}
+                    value={password}
                 ></TextInput>
             </View>
             <View style={styles.buttonGroup}>
@@ -47,6 +65,8 @@ export default function Welcome({ navigation }) {
                     title="Giriş yap"
                     color="#f14902"
                     style={styles.button}
+                    disabled={!(password && username)}
+                    onPress={async () => await submit()}
                 ></Button>
             </View>
         </SafeAreaView>

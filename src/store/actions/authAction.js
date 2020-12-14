@@ -1,5 +1,5 @@
 import { AUTH_USER, AUTH_LOADING, AUTH_LOGOUT } from "../types";
-import { URL, URL_USER } from "../apiUrl";
+import { URL, URL_USER, URL_AUTH, URL_AUTH_SIGNUP, URL_AUTH_LOGIN } from "../apiUrl";
 import Axios from "axios";
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -14,6 +14,28 @@ export const getUser = id => async dispatch => {
         }).finally(() => dispatch({ type: AUTH_LOADING, payload: false }))
 };
 
+export const signUp = user => async dispatch => {
+    dispatch({ type: AUTH_LOADING, payload: true });
+
+    return Axios.post(URL + URL_AUTH + URL_AUTH_SIGNUP, user)
+    .then(res => {
+        console.log(res.data)
+        dispatch({ type: AUTH_USER, payload: res.data });
+    }).catch(error => {
+        //console.log(error.response);
+    }).finally(() => dispatch({ type: AUTH_LOADING, payload: false }))
+}
+
+export const login = user => async dispatch => {
+    dispatch({ type: AUTH_LOADING, payload: true });
+
+    return Axios.post(URL + URL_AUTH + URL_AUTH_LOGIN, user)
+    .then(res => {
+        dispatch({ type: AUTH_USER, payload: res.data });
+    }).catch(error => {
+        //console.log(error.response);
+    }).finally(() => dispatch({ type: AUTH_LOADING, payload: false }))
+}
 export const logout = () => async dispatch => {
     try {
         const keys = await AsyncStorage.getAllKeys();
