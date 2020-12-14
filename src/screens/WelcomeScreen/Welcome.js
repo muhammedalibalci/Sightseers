@@ -7,6 +7,7 @@ import {
     View,
     TextInput,
     Button,
+    Text,
 } from 'react-native'
 import Spinner from 'react-native-loading-spinner-overlay'
 import {
@@ -14,20 +15,25 @@ import {
     widthPercentageToDP,
 } from 'react-native-responsive-screen'
 import welcome from '../../../assets/welcome.png'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../store/actions/authAction'
+import FlashMessage, { showMessage } from 'react-native-flash-message'
 
 export default function Welcome({ navigation }) {
-    const [loading, setLoadig] = useState(false)
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    let { error, loading } = useSelector((state) => state.auth)
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
     const submit = async () => {
-        setLoadig(true)
-        await dispatch(login({ userName: username, password: password }))
-        setLoadig(false)
+      await dispatch(login({ userName: username, password: password }))
+
+        if (error)
+            showMessage({
+                message: 'Kullanıcı adı veya şifre hatalı!',
+                type: 'danger',
+            })
     }
 
     return (
@@ -43,14 +49,14 @@ export default function Welcome({ navigation }) {
                 <TextInput
                     style={styles.input}
                     placeholder="Kullanıcı Adı"
-                    onChangeText={username => setUsername(username)}
+                    onChangeText={(username) => setUsername(username)}
                     value={username}
                 ></TextInput>
                 <TextInput
                     style={styles.input}
                     placeholder="Parola"
                     secureTextEntry={true}
-                    onChangeText={password => setPassword(password)}
+                    onChangeText={(password) => setPassword(password)}
                     value={password}
                 ></TextInput>
             </View>
@@ -66,9 +72,10 @@ export default function Welcome({ navigation }) {
                     color="#f14902"
                     style={styles.button}
                     disabled={!(password && username)}
-                    onPress={async () => await submit()}
+                    onPress={async () => { await submit()}}
                 ></Button>
             </View>
+            <FlashMessage position="top" />
         </SafeAreaView>
     )
 }
