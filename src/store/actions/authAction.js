@@ -22,7 +22,7 @@ export const signUp = user => async dispatch => {
         console.log(res.data)
         dispatch({ type: AUTH_USER, payload: res.data });
     }).catch(error => {
-        // console.log(error.response);
+        console.log(error.response);
     }).finally(() => dispatch({ type: AUTH_LOADING, payload: false }))
 }
 

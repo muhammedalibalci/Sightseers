@@ -1,5 +1,7 @@
-import AsyncStorage from '@react-native-community/async-storage'
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../../store/actions/authAction'
+
 import {
     ImageBackground,
     SafeAreaView,
@@ -7,17 +9,15 @@ import {
     View,
     TextInput,
     Button,
-    Text,
 } from 'react-native'
 import Spinner from 'react-native-loading-spinner-overlay'
+import FlashMessage, { showMessage } from 'react-native-flash-message'
+
 import {
     heightPercentageToDP,
     widthPercentageToDP,
 } from 'react-native-responsive-screen'
 import welcome from '../../../assets/welcome.png'
-import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../store/actions/authAction'
-import FlashMessage, { showMessage } from 'react-native-flash-message'
 
 export default function Welcome({ navigation }) {
     const [username, setUsername] = useState('')
@@ -27,9 +27,9 @@ export default function Welcome({ navigation }) {
     const dispatch = useDispatch()
 
     const submit = async () => {
-      await dispatch(login({ userName: username, password: password }))
+        await dispatch(login({ userName: username, password: password }))
 
-        if (error)
+        if (error === true)
             showMessage({
                 message: 'Kullanıcı adı veya şifre hatalı!',
                 type: 'danger',
@@ -72,7 +72,9 @@ export default function Welcome({ navigation }) {
                     color="#f14902"
                     style={styles.button}
                     disabled={!(password && username)}
-                    onPress={async () => { await submit()}}
+                    onPress={async () => {
+                        await submit()
+                    }}
                 ></Button>
             </View>
             <FlashMessage position="top" />
