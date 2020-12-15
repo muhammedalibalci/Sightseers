@@ -30,9 +30,11 @@ export const login = user => async dispatch => {
     dispatch({ type: AUTH_LOADING, payload: true })
     ;
     return Axios.post(URL + URL_AUTH + URL_AUTH_LOGIN, user)
-    .then(res => {
+    .then(async res => {
         dispatch({ type: AUTH_USER, payload: res.data });
         dispatch({ type: AUTH_ERROR, payload: false });
+
+        await AsyncStorage.setItem("token", res.data.token)
     }).catch(error => {
         // console.log(error.response);
         dispatch({ type: AUTH_ERROR, payload: true });

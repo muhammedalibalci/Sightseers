@@ -22,18 +22,24 @@ import welcome from '../../../assets/welcome.png'
 export default function Welcome({ navigation }) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [isSubmitted, setIsSubmitted] = useState(false)
     let { error, loading } = useSelector((state) => state.auth)
 
     const dispatch = useDispatch()
 
+    if (isSubmitted && error) {
+        showMessage({
+            message: 'Kullanıcı adı veya şifre hatalı!',
+            type: 'danger',
+        })
+
+        setIsSubmitted(false)
+    }
+
     const submit = async () => {
         await dispatch(login({ userName: username, password: password }))
 
-        if (error === true)
-            showMessage({
-                message: 'Kullanıcı adı veya şifre hatalı!',
-                type: 'danger',
-            })
+        setIsSubmitted(true)
     }
 
     return (
