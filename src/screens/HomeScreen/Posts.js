@@ -29,7 +29,7 @@ export default function Posts({ navigation }) {
     }, [])
 
     const fetchPosts = (pageNumber) => {
-       // dispatch(getPosts(pageNumber))
+       dispatch(getPosts(pageNumber))
     }
 
     const _renderItem = ({ item }) => (

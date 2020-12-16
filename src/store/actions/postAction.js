@@ -14,7 +14,6 @@ export const getPosts = (pageNumber) => async dispatch => {
         }).catch(error => {
             console.log(error.response);
         })
-
 };
 
 export const addPost = (data) => async dispatch => {
