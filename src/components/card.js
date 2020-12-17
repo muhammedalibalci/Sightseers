@@ -42,10 +42,12 @@ function Card({ navigation, post }) {
                 />
             </View>
 
-            {/** Title */}
-            {post.content != null && (
-                <Text style={styles.titleText}>{post.content}</Text>
-            )}
+            <View style={{paddingVertical: 50, textAlign: 'left'}}>
+                {/** Title */}
+                {post.content != null && (
+                    <Text style={styles.titleText}>{post.content}</Text>
+                )}
+            </View>
 
             {/** Footer */}
             <View style={styles.footer}>
@@ -66,9 +68,7 @@ function Card({ navigation, post }) {
                 </View>
                 <TouchableOpacity
                     style={styles.textAndIconContainer}
-                    onPress={() =>
-                        console.log("Detaya tıkladı")
-                    }
+                    onPress={() => console.log('Detaya tıkladı')}
                 >
                     <Text>Detaylar </Text>
                     <AntDesign name="doubleright" size={16} />
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
         fontFamily: 'lato-Regular',
     },
     titleText: {
-        textAlign: 'center',
         marginBottom: 10,
         fontSize: heightPercentageToDP('2.5%'),
         fontFamily: 'lato-Regular',

@@ -82,7 +82,7 @@ namespace SightSeers.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddPost([FromForm] IFormFile file, [FromForm] PostDto post)
+        public async Task<ActionResult> AddPost([FromForm] IFormFile file, [FromBody] PostDto post)
         {
             var userId = (int)HttpContext.Items["UserId"];
             post.UserId = userId;

@@ -25,6 +25,7 @@ namespace SightSeers.Infrastructure.Repositories
                                 new Post
                                 {
                                     Id = x.Id,
+                                    Title = x.Title,
                                     Content = x.Content,
                                     ImageUrl = x.ImageUrl,
                                     User = x.User,
@@ -45,6 +46,7 @@ namespace SightSeers.Infrastructure.Repositories
             .Select(x => new Post
             {
                 Id = x.Id,
+                Title = x.Title,
                 Content = x.Content,
                 ImageUrl = x.ImageUrl,
                 User = x.User,
@@ -62,6 +64,7 @@ namespace SightSeers.Infrastructure.Repositories
              .Select(x => new Post
              {
                  Id = x.Id,
+                 Title = x.Title,
                  Content = x.Content,
                  ImageUrl = x.ImageUrl,
                  User = x.User,

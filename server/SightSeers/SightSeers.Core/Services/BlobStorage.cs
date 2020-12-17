@@ -15,7 +15,7 @@ namespace SightSeers.Core.Services
 
         public BlobStorage()
         {
-            _blobServiceClient = new BlobServiceClient("");
+            _blobServiceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=hibook;AccountKey=IT/ws0bPzF8//XWx7wNBoqspIgjHH+xbAVyMJzvOEjhifgFLR55coRvFEJuexf7InfRh8JIsdHRcfmA1mJTOxg==;EndpointSuffix=core.windows.net");
         }
 
         private BlobContainerClient GetContainerClient(string blobContainerName)
