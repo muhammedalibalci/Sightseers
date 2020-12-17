@@ -86,7 +86,7 @@ export default function Posts({ navigation }) {
                 paddingTop: Platform.OS === 'android' ? 20 : 0,
             }}
         >
-            <TopBar title="Stream" leftIcon="bars" />
+            <TopBar title="Stream" leftIcon="bars" leftIconClick={navigation.openDrawer} />
             <FlatList
                 data={posts}
                 renderItem={_renderItem}

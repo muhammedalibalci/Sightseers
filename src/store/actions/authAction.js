@@ -34,6 +34,8 @@ export const login = user => async dispatch => {
         dispatch({ type: AUTH_USER, payload: res.data });
         dispatch({ type: AUTH_ERROR, payload: false });
 
+        console.log(res.data)
+        
         await AsyncStorage.setItem("token", res.data.token)
     }).catch(error => {
         // console.log(error.response);
