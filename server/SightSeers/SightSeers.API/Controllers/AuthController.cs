@@ -17,6 +17,7 @@ namespace SightSeers.API.Controllers
         {
             _accountService = accountService;
         }
+
         [HttpPost("signup")]
         public ActionResult SignUp([FromBody] RequestSignUpDto requestSignUpDto)
         {
@@ -39,5 +40,17 @@ namespace SightSeers.API.Controllers
             }
             return new OkObjectResult(user);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetUser(int id)
+        {
+            var user = await _accountService.GetUser(id);
+            if (user == null)
+            {
+                return new BadRequestResult();
+            }
+            return new OkObjectResult(user);
+        }
+
     }
 }

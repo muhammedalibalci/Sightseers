@@ -13,11 +13,11 @@ namespace SightSeers.Core.Services
     {
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         public AuthService(IMapper _mapper,
             ITokenService _tokenService,
-            IUnitOfWork _unitOfWork, IRepository<User> userRepository)
+            IUnitOfWork _unitOfWork, IUserRepository userRepository)
         {
             this._mapper = _mapper;
             this._tokenService = _tokenService;
@@ -71,6 +71,11 @@ namespace SightSeers.Core.Services
         public User CheckUsernameExistsAsync(string username)
         {
             return _userRepository.Get(x => x.Username == username);
+        }
+
+        public async Task<ProfileDto> GetUser(int id)
+        {
+            return await _userRepository.GetProfile(id);
         }
     }
 }

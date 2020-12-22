@@ -36,11 +36,6 @@ namespace SightSeers.API.Controllers
             var userId = (int)HttpContext.Items["UserId"];
             var posts = await _postService.GetAllPostsAsync(paginationParameters, userId);
 
-            if (posts.Count == 0)
-            {
-                return new NoContentResult();
-            }
-
             var metadata = new
             {
                 posts.TotalCount,
@@ -62,10 +57,6 @@ namespace SightSeers.API.Controllers
 
             var posts = await _postService.GetAllPostsUserAsync(userId, paginationParameters);
 
-            if (posts.Count == 0)
-            {
-                return new NoContentResult();
-            }
 
             var metadata = new
             {
@@ -82,7 +73,7 @@ namespace SightSeers.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddPost([FromForm] IFormFile file, [FromBody] PostDto post)
+        public async Task<ActionResult> AddPost([FromForm] IFormFile file, [FromForm] PostDto post)
         {
             var userId = (int)HttpContext.Items["UserId"];
             post.UserId = userId;
