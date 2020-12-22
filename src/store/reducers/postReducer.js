@@ -7,15 +7,16 @@ import {
     POST_UNLIKE,
     CLEAR_POST,
     INCREASE_COMMENTS,
+    GET_MY_POSTS,
 } from '../types'
 
 const initialState = {
     posts: [],
-    myPoints: [],
+    myPosts: [],
     categories: [],
     categoryNumber: 1,
     pagination: {},
-    loading: false,
+    loading: true,
     error: null,
 }
 
@@ -33,10 +34,22 @@ export default (state = initialState, action) => {
                 pagination,
                 loading: false,
             }
+        case GET_MY_POSTS:
+            const upagination = JSON.parse(payload.headers.pagination)
+            return {
+                ...state,
+                myPosts:
+                    upagination.CurrentPage == 1
+                        ? [...payload.data]
+                        : [...state.myPosts, ...payload.data],
+                upagination,
+                loading: false,
+            }
         case ADD_POST:
             return {
                 ...state,
                 posts: [payload].concat(state.posts),
+                myPosts: [payload].concat(state.myPosts),
                 loading: false,
                 error: null,
             }

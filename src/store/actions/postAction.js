@@ -1,5 +1,5 @@
 import {
-    GET_MY_POINTS,
+    GET_MY_POSTS,
     GET_POSTS,
     ADD_POST,
     POST_ERROR,
@@ -21,8 +21,23 @@ export const getPosts = (pageNumber) => async (dispatch) => {
         },
     })
         .then((res) => {
-            dispatch({ type: GET_POSTS, payload: res})
-            console.log(res.data)
+            dispatch({ type: GET_POSTS, payload: res })
+        })
+        .catch((error) => {
+            console.log(error.response)
+        })
+}
+
+export const getUserPosts = (pageNumber) => async (dispatch) => {
+    const token = await AsyncStorage.getItem('token')
+    dispatch({ type: POST_LOADING })
+    return Axios.get(URL + URL_POST + `myPosts?pageNumber=${pageNumber}&pageSize=20`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    })
+        .then((res) => {
+            dispatch({ type: GET_MY_POSTS, payload: res })
         })
         .catch((error) => {
             console.log(error.response)
@@ -31,10 +46,11 @@ export const getPosts = (pageNumber) => async (dispatch) => {
 
 export const addPost = (data) => async (dispatch) => {
     const token = await AsyncStorage.getItem('token')
+
     dispatch({ type: POST_LOADING })
     return Axios.post(URL + URL_POST, data, {
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`
         },
     })
         .then((res) => {

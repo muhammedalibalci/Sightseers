@@ -8,14 +8,13 @@ import {
     Image,
     Dimensions,
 } from 'react-native'
-import { heightPercentageToDP } from 'react-native-responsive-screen'
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen'
 import { format } from 'timeago.js'
 import { Card as CardView } from 'react-native-elements'
 import LikeButton from './likeButton'
-import { widthPercentageToDP } from 'react-native-responsive-screen'
+
 function Card({ navigation, post }) {
-    const time = format(new Date(post.createdAt))
-    const { width } = Dimensions.get('window')
+    const time = format(post.createdAt)
 
     return (
         <CardView>
@@ -34,20 +33,16 @@ function Card({ navigation, post }) {
                 </View>
             </View>
 
-            <View style={{ height: 100 }}>
-                <Image
-                    style={styles.image}
-                    resizeMode={'center'}
-                    source={{ uri: post.imageUrl }}
-                />
-            </View>
 
-            <View style={{paddingVertical: 50, textAlign: 'left'}}>
-                {/** Title */}
+            <View >
                 {post.content != null && (
                     <Text style={styles.titleText}>{post.content}</Text>
                 )}
             </View>
+
+            {post.imageUrl && <View style={{ height: 200, width: widthPercentageToDP('84%') }}>
+                <Image source={{ uri: post.imageUrl }} style={styles.image} />
+            </View>}
 
             {/** Footer */}
             <View style={styles.footer}>
@@ -82,7 +77,7 @@ const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 10,
+        padding: 3,
         marginBottom: 15,
         marginTop: 15,
     },
@@ -93,13 +88,21 @@ const styles = StyleSheet.create({
         marginLeft: 2,
     },
     nameText: {
-        fontSize: heightPercentageToDP('2.3%'),
-        fontFamily: 'lato-Regular',
+        fontSize: heightPercentageToDP('2.5%'),
+        fontFamily: 'Lato-Regular',
     },
     titleText: {
         marginBottom: 10,
         fontSize: heightPercentageToDP('2.5%'),
-        fontFamily: 'lato-Regular',
+        fontFamily: 'Lato-Regular',
+    },
+    timeText: {
+        fontSize: heightPercentageToDP('2%'),
+        fontFamily: 'Lato-Regular',
+    },
+    image: {
+        borderRadius: 20,
+        width: widthPercentageToDP('100%'),
     },
     footer: {
         flexDirection: 'row',
