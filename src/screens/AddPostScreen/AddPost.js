@@ -7,12 +7,16 @@ import { addPost } from '../../store/actions/postAction'
 import Spinner from 'react-native-loading-spinner-overlay'
 import TopBar from '../../components/topbar'
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch } from 'react-redux'
+import { SaveFormat,manipulateAsync} from 'expo-image-manipulator'
 
 function AddPost({ navigation }) {
 
     const [content, setContent] = useState('');
     const [photo, setPhoto] = useState('')
     const [loading, setLoading] = useState(false)
+
+    const dispatch = useDispatch()
 
     const proceed = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -42,26 +46,19 @@ function AddPost({ navigation }) {
         let formData = new FormData();
         formData.append('content', content)
         if (photo) {
-            formData.append('file', photo);
+            const file = await compressImage(photo.uri, SaveFormat.PNG, photo.filename, 1500, 1500)
+            formData.append('file', file);
         }
-        if (content.trim().length == 0) {
-            alert("Content must be fill out")
+        if (!content && !photo) {
             setLoading(false)
-        }
-        else if (content.trim().length > 300) {
-            alert("Content must be 2 charcted at least")
-            setLoading(false)
+            return;
         }
         else {
-            console.log(formData);
-          /*  addPost(formData).then(res => {
-                setLoading(false)
-                setContent('')
-                setPhoto('')
-                navigation.navigate("Home", { screen: 'Home' })
-            }).catch(() => {
-                setLoading(false)
-            })*/
+            dispatch(addPost(formData))
+            setLoading(false)
+            setContent('')
+            setPhoto('')
+            navigation.navigate("Home", { screen: 'Home' })
         }
     }
 
@@ -107,7 +104,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-        backgroundColor:'white'
+        backgroundColor: 'white'
     },
     inner: {
     },
@@ -136,3 +133,18 @@ const styles = StyleSheet.create({
 })
 
 export default AddPost
+
+
+export const compressImage = async (uri, format = SaveFormat.PNG,filename, w, h) => { // SaveFormat.PNG
+    const result = await manipulateAsync(
+        uri,
+        [{ resize: { width: w, height: h } }],
+        { compress: 0.7, format }
+    );
+
+    return {
+        ...result,
+        name: filename || Math.floor(Math.random() * Math.floor(999999999)) + '.png',
+        type: 'image/jpeg',
+    };
+};
