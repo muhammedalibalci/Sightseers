@@ -44,8 +44,8 @@ function Card({ navigation, post }) {
 
             <View style={{paddingVertical: 50, textAlign: 'left'}}>
                 {/** Title */}
-                {post.content != null && (
-                    <Text style={styles.titleText}>{post.content}</Text>
+                {post.title != null && (
+                    <Text style={styles.titleText}>{post.title}</Text>
                 )}
             </View>
 
