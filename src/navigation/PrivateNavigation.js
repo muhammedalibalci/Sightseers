@@ -6,6 +6,8 @@ import Posts from '../screens/HomeScreen/Posts';
 import { AntDesign } from '@expo/vector-icons'
 import AddPost from '../screens/AddPostScreen/AddPost';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import Profile from '../screens/ProfileScreen/Profile';
+import PostDetail from '../screens/HomeScreen/PostDetail';
 
 const HomeStack = createStackNavigator();
 
@@ -13,7 +15,7 @@ function HomeStackScreen({navigation, route }) {
     
     const routeName = getFocusedRouteNameFromRoute(route)
     React.useEffect(() => {
-        if (routeName == "PostWebView" || routeName == "Comments") {
+        if (routeName == "PostDetail") {
             navigation.setOptions({ tabBarVisible: false });
         }
         else{
@@ -24,13 +26,14 @@ function HomeStackScreen({navigation, route }) {
     return (
         <HomeStack.Navigator headerMode="none">
             <HomeStack.Screen name="Posts" component={Posts} />
+            <HomeStack.Screen name="PostDetail" component={PostDetail} />
         </HomeStack.Navigator>
     );
 }
 
 const AddPostStack = createStackNavigator();
 
-function ProfileStackScreen() {
+function AddPostStackScreen() {
     return (
         <AddPostStack.Navigator headerMode="none">
             <AddPostStack.Screen name="Add" component={AddPost} />
@@ -40,10 +43,10 @@ function ProfileStackScreen() {
 
 const ProfileStack = createStackNavigator();
 
-function AddPostStackScreen() {
+function ProfileStackScreen() {
     return (
         <ProfileStack.Navigator headerMode="none">
-            <ProfileStack.Screen name="Add" component={AddPost} />
+            <ProfileStack.Screen name="Profile" component={Profile} />
         </ProfileStack.Navigator>
     );
 }
@@ -61,11 +64,11 @@ export default function PrivateNavigation() {
             }
             else if (route.name === 'Add') {
                 iconName = focused ? 'plus' : 'plus';
-                return <View style={{ backgroundColor: "#21618C", padding: 10, borderRadius: 50 }}>
+                return <View style={{ backgroundColor: "#f14902", padding: 10, borderRadius: 50 }}>
                     <AntDesign name="plus" size={20} color="white" />
                 </View>
             }
-            else if (route.name === 'Profile') {
+            else if (route.name === 'ProfileScreen') {
                 iconName = focused ? 'user' : 'user';
             }
             return <AntDesign name={iconName} size={size} color={color} />;
@@ -74,10 +77,10 @@ export default function PrivateNavigation() {
     })
 
     return (
-        <Tab.Navigator initialRouteName="Home" screenOptions={handleTabBarIcon} tabBarOptions={{ activeTintColor:"#21618C", showLabel: false, inactiveTintColor: 'grey', }}>
+        <Tab.Navigator initialRouteName="Home" screenOptions={handleTabBarIcon} tabBarOptions={{ activeTintColor:"#f14902", showLabel: false, inactiveTintColor: 'grey', }}>
             <Tab.Screen name="Home" component={HomeStackScreen} />
             <Tab.Screen name="Add" component={AddPostStackScreen} />
-            <Tab.Screen name="Profile" component={ProfileStackScreen} />
+            <Tab.Screen name="ProfileScreen" component={ProfileStackScreen} />
         </Tab.Navigator>
     )
 }

@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export const getUser = id => async dispatch => {
     dispatch({ type: AUTH_LOADING, payload: true });
-    return Axios.get(URL + URL_USER + `?id=${id}`)
+    return Axios.get(URL + URL_AUTH + `?id=${id}`)
         .then(res => {
             dispatch({ type: AUTH_USER, payload: res.data });
         }).catch(error => {

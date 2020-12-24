@@ -3,6 +3,7 @@ using SightSeers.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SightSeers.Core.Interfaces
 {
@@ -11,6 +12,6 @@ namespace SightSeers.Core.Interfaces
         ResponseAuthDto Login(RequestAuthDto user);
         ResponseAuthDto SignUp(RequestSignUpDto user);
         User CheckUsernameExistsAsync(string username);
-
+        Task<ProfileDto> GetUser(int id);
     }
 }

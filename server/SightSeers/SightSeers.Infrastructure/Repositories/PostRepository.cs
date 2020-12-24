@@ -33,16 +33,16 @@ namespace SightSeers.Infrastructure.Repositories
                                     LikeCount = _context.PostLikes.Where(up => up.PostId == x.Id).Count(),
                                     CommentCount = _context.Comments.Where(c => c.PostId == x.Id).Count(),
                                     IsLiked = _context.PostLikes.Where(up => up.PostId == x.Id && up.UserId == userId).Any()
-                                }).ToListAsync();
+                                }).OrderByDescending(x=>x.CreatedAt)
+                                .ToListAsync();
 
             return posts;
         }
 
 
         public async Task<List<Post>> GetAllPostsOfUserAsync(int userId) =>
-            await _context.PostLikes
+            await _context.Posts
             .Where(x => x.UserId == userId)
-            .Select(x => _context.Posts.Where(y => y.Id == x.PostId).FirstOrDefault())
             .Select(x => new Post
             {
                 Id = x.Id,
