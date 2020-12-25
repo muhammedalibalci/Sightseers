@@ -92,7 +92,7 @@ export default (state = initialState, action) => {
                 posts: state.posts.map(
                     post => post.id === payload ? { ...post, commentCount: post.commentCount += 1 }
                         : post),
-                myPoints: state.myPoints.map(
+                myPosts: state.myPosts.map(
                     post => post.id === payload ? { ...post, commentCount: post.commentCount += 1 }
                         : post),
                 loading: false

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import { View, Text, Image, StatusBar, ScrollView, FlatList, Platform, StyleSheet } from 'react-native';
+import { View, Text, Image, StatusBar, ScrollView, FlatList, Platform, Keyboard, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { widthPercentageToDP, heightPercentageToDP } from 'react-native-responsive-screen';
@@ -9,6 +9,7 @@ import { AntDesign } from '@expo/vector-icons'
 import { Card as CardView } from 'react-native-elements'
 import { URL, URL_COMMENT } from '../../store/apiUrl';
 import { INCREASE_COMMENTS } from '../../store/types';
+import { useDispatch } from 'react-redux';
 
 import TopBar from '../../components/topbar';
 import LikeButton from '../../components/likeButton';
@@ -22,6 +23,7 @@ export default function PostDetail({ route, navigation }) {
   const [comment, setComment] = useState('')
   const [disabledAddCommentButton, setDisabledAddCommentButton] = useState(true)
   const [addLoadingComment, setAddLoadingComment] = useState(false)
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchComments()
@@ -69,16 +71,12 @@ export default function PostDetail({ route, navigation }) {
     setAddLoadingComment(false)
   }
 
-  function _renderComments({ item }) {
-    <CommentItem comment={item} postId={post.id} comments={comments} setComments={setComments} />
+  const _renderComments = ( item ) => ( 
+  <CommentItem comment={item} postId={post.id} comments={comments} setComments={setComments} />
+  )
 
-  }
-
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} >
-      <TopBar title="Post Detail" leftIcon="left" leftIconClick={() => navigation.goBack()} />
-      <ScrollView>
-        <CardView>
+  const _renderPost = () => (
+    <CardView>
           <View style={styles.headerContainer}>
             <View style={styles.headerText}>
               <AntDesign name="user" size={16} />
@@ -104,17 +102,21 @@ export default function PostDetail({ route, navigation }) {
             </View>
           </View>
         </CardView>
+  )
 
-        
-      </ScrollView>
-      <FlatList
+  
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} >
+      <TopBar title="Post Detail" leftIcon="left" leftIconClick={() => navigation.goBack()} />
+        <FlatList
           data={comments}
           renderItem={_renderComments}
           //onEndReached={onEndReached}
           //ListHeaderComponent={_headerCompoenent}
           onEndReachedThreshold={1}
           keyExtractor={(item, index) => index.toString()}
-        />
+          ListHeaderComponent={_renderPost}
+        />      
       <BottomInput
         onPressSend={handleAddComment}
         loading_process={addLoadingComment}
