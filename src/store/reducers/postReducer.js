@@ -8,11 +8,13 @@ import {
     CLEAR_POST,
     INCREASE_COMMENTS,
     GET_MY_POSTS,
+    GET_MY_LIKES,
 } from '../types'
 
 const initialState = {
     posts: [],
     myPosts: [],
+    myLikes: [],
     categories: [],
     categoryNumber: 1,
     pagination: {},
@@ -73,7 +75,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 posts: state.posts.map(x => x.id == payload ? (updatedPost) : x),
-                myPoints: [...state.myPoints, updatedPost],
+                myLikes: [...state.myLikes, updatedPost],
                 loading: false,
             }
         case POST_UNLIKE:
@@ -83,7 +85,17 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 posts: state.posts.map(x => x.id == payload ? (updatedPost) : x),
-                myPoints: state.myPoints.filter(x => x.id !== payload),
+                myLikes: state.myLikes.filter(x => x.id !== payload),
+                loading: false,
+            }
+            case GET_MY_LIKES:
+            return {
+                ...state,
+                myLikes:
+                    payload.headers.pagination.CurrentPage == 1
+                        ? [...payload.data]
+                        : [...state.myLikes, ...payload.data],
+                pagination: JSON.parse(payload.headers.pagination),
                 loading: false,
             }
         case INCREASE_COMMENTS:

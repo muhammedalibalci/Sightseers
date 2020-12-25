@@ -6,5 +6,8 @@ export const URL_USER = "users/";
 export const URL_POST = "posts/";
 export const URL_COMMENT = "comments/";
 
-export const URL_AUTH_SIGNUP = "signup/"
-export const URL_AUTH_LOGIN = "login/"
+export const URL_AUTH_SIGNUP = "signup/";
+export const URL_AUTH_LOGIN = "login/";
+
+export const URL_LIKE = "like";
+export const URL_UNLIKE = "unlike";

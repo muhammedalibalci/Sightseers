@@ -5,7 +5,6 @@ import React, { useState } from 'react'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { Card } from 'react-native-elements'
 import { heightPercentageToDP } from 'react-native-responsive-screen'
-import { useDispatch } from 'react-redux'
 import { format } from 'timeago.js'
 import { URL, URL_COMMENT } from '../store/apiUrl'
 import { INCREASE_COMMENTS, ADD_REPLY } from '../store/types'
@@ -13,8 +12,6 @@ import BottomInput from './BottomInput'
 
 export default function CommentItem({ comment, postId, comments, setComments }) {
 
-    console.log(comment);
-    const dispatch = useDispatch()
     const time = format(comment.item.createdAt)
         
     return (

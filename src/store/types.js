@@ -12,5 +12,6 @@ export const INCREASE_COMMENTS = "INCREASE_COMMENTS";
 export const CLEAR_POST = "CLEAR_POST";
 export const POST_LIKE = "POST_LIKE";
 export const POST_UNLIKE = "REMOVE_PPOST_UNLIKEOINT";
+export const GET_MY_LIKES = "GET_MY_LIKES";
 
 

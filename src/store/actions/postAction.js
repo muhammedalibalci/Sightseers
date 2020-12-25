@@ -4,10 +4,10 @@ import {
     ADD_POST,
     POST_ERROR,
     POST_LOADING,
-    ADD_POINT,
-    REMOVE_POINT,
+    POST_LIKE,
+    POST_UNLIKE,
 } from '../types'
-import { DOWN_VOTE, UP_VOTE, URL, URL_POST } from '../apiUrl'
+import { URL_LIKE, URL_UNLIKE, URL, URL_POST } from '../apiUrl'
 import Axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
 
@@ -64,24 +64,28 @@ export const addPost = (data) => async (dispatch) => {
 
 export const addPoint = (data) => async (dispatch) => {
     const token = await AsyncStorage.getItem('token')
+
+    console.log(URL + URL_POST + URL_LIKE + data)
     try {
-        dispatch({ type: ADD_POINT, payload: data })
-        await Axios.post(URL + URL_POST + UP_VOTE + data, null, {
+        dispatch({ type: POST_LIKE, payload: data })
+        await Axios.post(URL + URL_POST + URL_LIKE + "?id=" + data, null, {
             headers: { Authorization: `Bearer ${token}` },
         })
     } catch (error) {
-        dispatch({ type: REMOVE_POINT, payload: data })
+        console.log(error.response);
+        dispatch({ type: POST_LIKE, payload: data })
     }
 }
 
 export const removePoint = (data) => async (dispatch) => {
     const token = await AsyncStorage.getItem('token')
     try {
-        dispatch({ type: REMOVE_POINT, payload: data })
-        await Axios.post(URL + URL_POST + DOWN_VOTE + data, null, {
+        dispatch({ type: POST_UNLIKE, payload: data })
+        await Axios.post(URL + URL_POST + URL_UNLIKE + "?id=" + data, null, {
             headers: { Authorization: `Bearer ${token}` },
         })
     } catch (error) {
-        dispatch({ type: ADD_POINT, payload: data })
+        console.log(error);
+        dispatch({ type: POST_LIKE, payload: data })
     }
 }
