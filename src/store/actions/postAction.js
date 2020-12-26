@@ -6,6 +6,7 @@ import {
     POST_LOADING,
     POST_LIKE,
     POST_UNLIKE,
+    GET_MY_LIKES,
 } from '../types'
 import { URL_LIKE, URL_UNLIKE, URL, URL_POST } from '../apiUrl'
 import Axios from 'axios'
@@ -65,14 +66,12 @@ export const addPost = (data) => async (dispatch) => {
 export const addPoint = (data) => async (dispatch) => {
     const token = await AsyncStorage.getItem('token')
 
-    console.log(URL + URL_POST + URL_LIKE + data)
     try {
         dispatch({ type: POST_LIKE, payload: data })
         await Axios.post(URL + URL_POST + URL_LIKE + "?id=" + data, null, {
             headers: { Authorization: `Bearer ${token}` },
         })
     } catch (error) {
-        console.log(error.response);
         dispatch({ type: POST_LIKE, payload: data })
     }
 }
@@ -85,7 +84,6 @@ export const removePoint = (data) => async (dispatch) => {
             headers: { Authorization: `Bearer ${token}` },
         })
     } catch (error) {
-        console.log(error);
         dispatch({ type: POST_LIKE, payload: data })
     }
 }
@@ -95,11 +93,11 @@ export const getMyLikes = () => async dispatch => {
     dispatch({ type: POST_LOADING })
     return Axios.get(URL + URL_POST + `mylikes`, {
         headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
         }
     })
         .then(res => {
-            dispatch({ type: GET_MY_POINTS, payload: res });
+            dispatch({ type: GET_MY_LIKES, payload: res.data });
         }).catch(error => {
             dispatch({ type: POST_ERROR });
         })

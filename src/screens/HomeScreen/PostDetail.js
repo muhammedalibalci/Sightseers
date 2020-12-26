@@ -9,7 +9,7 @@ import { AntDesign } from '@expo/vector-icons'
 import { Card as CardView } from 'react-native-elements'
 import { URL, URL_COMMENT } from '../../store/apiUrl';
 import { INCREASE_COMMENTS } from '../../store/types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import TopBar from '../../components/topbar';
 import LikeButton from '../../components/likeButton';
@@ -17,7 +17,8 @@ import BottomInput from '../../components/BottomInput';
 import CommentItem from '../../components/CommentItem';
 
 export default function PostDetail({ route, navigation }) {
-  const { post } = route.params;
+  const { postId } = route.params;
+  const post = useSelector(state => state.post).posts.find(x => x.id === postId);
   const time = format(post.createdAt)
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState('')
@@ -80,7 +81,7 @@ export default function PostDetail({ route, navigation }) {
           <View style={styles.headerContainer}>
             <View style={styles.headerText}>
               <AntDesign name="user" size={16} />
-              <Text>{post.user.username}</Text>
+              <Text>{`${post.user.name} ${post.user.lastname}`}</Text>
             </View>
             <View style={styles.headerText}>
               <AntDesign name="clockcircleo" size={16} />

@@ -68,8 +68,8 @@ export default (state = initialState, action) => {
             }
         case POST_LIKE:
             var updatedPost = state.posts.find(x => x.id === payload)
-            updatedPost.pointCount++;
-            updatedPost.isPointed = true
+            updatedPost.likeCount++;
+            updatedPost.isLiked = true
 
             return {
                 ...state,
@@ -79,8 +79,8 @@ export default (state = initialState, action) => {
             }
         case POST_UNLIKE:
             var updatedPost = state.posts.find(x => x.id === payload)
-            updatedPost.pointCount--;
-            updatedPost.isPointed = false
+            updatedPost.likeCount--;
+            updatedPost.isLiked = false
             return {
                 ...state,
                 posts: state.posts.map(x => x.id == payload ? (updatedPost) : x),

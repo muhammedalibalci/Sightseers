@@ -10,7 +10,7 @@ function LikeButton({ post }) {
     return (
         <View style={styles.textAndIconContainer}>
             <Text>{post.likeCount} </Text>
-            {post.isPointed ? (
+            {post.isLiked ? (
                 <TouchableOpacity onPress={() => dispatch(removePoint(post.id))}>
                     <AntDesign name="upcircle" color="#f14902" size={20} />
                 </TouchableOpacity>

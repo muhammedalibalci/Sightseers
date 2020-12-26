@@ -26,7 +26,6 @@ export default function Posts({ navigation }) {
     useEffect(() => {
         dispatch({ type: CLEAR_POST })
         fetchPosts(pageNumber)
-        dispatch(getMyLikes())
     }, [])
 
     const fetchPosts = (pageNumber) => {

@@ -65,7 +65,7 @@ function Card({ navigation, post }) {
                     onPress={() =>
                         navigation.navigate('Home', {
                             screen: 'PostDetail',
-                            params: { post },
+                            params: { postId: post.id },
                         })
                     }
                 >
