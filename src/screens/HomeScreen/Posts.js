@@ -11,7 +11,7 @@ import FlashMessage from "react-native-flash-message";
 import Card from '../../components/card'
 import TopBar from '../../components/topbar'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPosts } from '../../store/actions/postAction'
+import { getPosts, getMyLikes } from '../../store/actions/postAction'
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { CLEAR_POST } from '../../store/types';
 
@@ -26,6 +26,7 @@ export default function Posts({ navigation }) {
     useEffect(() => {
         dispatch({ type: CLEAR_POST })
         fetchPosts(pageNumber)
+        dispatch(getMyLikes())
     }, [])
 
     const fetchPosts = (pageNumber) => {

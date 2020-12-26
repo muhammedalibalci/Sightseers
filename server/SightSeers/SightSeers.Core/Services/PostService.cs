@@ -99,5 +99,11 @@ namespace SightSeers.Core.Services
             _postLikeRepository.Delete(userPoint);
             _unitOfWork.Complete();
         }
+
+        public async Task<List<PostLike>> GetAllLikesByUser(int id) 
+        {
+            var likes = await _postLikeRepository.GetAllAsync(x => x.UserId == id);
+            return likes;
+        }
     }
 }

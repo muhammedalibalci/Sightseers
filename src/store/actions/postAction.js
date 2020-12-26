@@ -89,3 +89,18 @@ export const removePoint = (data) => async (dispatch) => {
         dispatch({ type: POST_LIKE, payload: data })
     }
 }
+
+export const getMyLikes = () => async dispatch => {
+    const token = await AsyncStorage.getItem('token')
+    dispatch({ type: POST_LOADING })
+    return Axios.get(URL + URL_POST + `mylikes`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(res => {
+            dispatch({ type: GET_MY_POINTS, payload: res });
+        }).catch(error => {
+            dispatch({ type: POST_ERROR });
+        })
+};

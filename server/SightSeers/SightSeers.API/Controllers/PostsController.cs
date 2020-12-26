@@ -72,6 +72,16 @@ namespace SightSeers.API.Controllers
             return new OkObjectResult(posts);
         }
 
+        [HttpGet("mylikes")]
+        public async Task<ActionResult> GetAllLikesOfUser()
+        {
+            var userId = (int)HttpContext.Items["UserId"];
+
+            var likes = await _postService.GetAllLikesByUser(userId);
+
+            return new OkObjectResult(likes);
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddPost([FromForm] IFormFile file, [FromForm] PostDto post)
         {

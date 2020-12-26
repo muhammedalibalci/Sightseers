@@ -67,7 +67,6 @@ export default (state = initialState, action) => {
                 loading: false,
             }
         case POST_LIKE:
-            // var updatedPosts = state.posts.map(x => x.id == payload ? (++x.pointCount && x) : x)
             var updatedPost = state.posts.find(x => x.id === payload)
             updatedPost.pointCount++;
             updatedPost.isPointed = true
@@ -75,7 +74,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 posts: state.posts.map(x => x.id == payload ? (updatedPost) : x),
-                myLikes: [...state.myLikes, updatedPost],
+                myLikes: [...state.myLikes, { postId: updatedPost.id }],
                 loading: false,
             }
         case POST_UNLIKE:
@@ -85,17 +84,13 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 posts: state.posts.map(x => x.id == payload ? (updatedPost) : x),
-                myLikes: state.myLikes.filter(x => x.id !== payload),
+                myLikes: state.myLikes.filter(x => x.postId !== payload),
                 loading: false,
             }
             case GET_MY_LIKES:
             return {
                 ...state,
-                myLikes:
-                    payload.headers.pagination.CurrentPage == 1
-                        ? [...payload.data]
-                        : [...state.myLikes, ...payload.data],
-                pagination: JSON.parse(payload.headers.pagination),
+                myLikes: payload.data,
                 loading: false,
             }
         case INCREASE_COMMENTS:

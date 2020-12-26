@@ -2,6 +2,7 @@
 using SightSeers.Core.Dtos;
 using SightSeers.Core.Helpers;
 using SightSeers.Core.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SightSeers.Core.Interfaces
@@ -17,6 +18,7 @@ namespace SightSeers.Core.Interfaces
         void PostLike(int userId,int id);
         
         void PostUnlike(int userId, int id);
+        Task<List<PostLike>> GetAllLikesByUser(int id);
 
         Task<ResponsePostDto> AddPost(PostDto post, IFormFile file);
         
