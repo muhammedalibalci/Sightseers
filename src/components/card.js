@@ -56,8 +56,9 @@ function Card({ navigation, post }) {
                             })
                         }
                     >
-                        <Text> {post.commentCount} </Text>
+                        <Text>    </Text>
                         <AntDesign name="aliwangwang-o1" size={16} />
+                        <Text> {post.commentCount} </Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
