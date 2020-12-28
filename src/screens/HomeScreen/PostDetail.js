@@ -3,14 +3,12 @@ import Axios from 'axios';
 import { View, Text, Image, StatusBar, ScrollView, FlatList, Platform, Keyboard, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { widthPercentageToDP, heightPercentageToDP } from 'react-native-responsive-screen';
 import { format } from 'timeago.js'
+import { useDispatch, useSelector } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons'
 import { Card as CardView } from 'react-native-elements'
 import { URL, URL_COMMENT } from '../../store/apiUrl';
 import { INCREASE_COMMENTS } from '../../store/types';
-import { useDispatch, useSelector } from 'react-redux';
-
 import TopBar from '../../components/topbar';
 import LikeButton from '../../components/likeButton';
 import BottomInput from '../../components/BottomInput';
@@ -37,17 +35,54 @@ export default function PostDetail({ route, navigation }) {
         'Authorization': `Bearer ${token}`
       }
     })
-    if (response.data) {
+    if (response.data) 
+    {
       setComments(response.data)
     }
   }
 
+  const _renderComments = ( item ) => ( 
+    <CommentItem comment={item} postId={post.id} comments={comments} setComments={setComments} />
+    )
+
+    const _renderPost = () => (
+      <CardView>
+            <View style={styles.headerContainer}>
+              <View style={styles.headerText}>
+                <AntDesign name="user" size={16} />
+                <Text>{`${post.user.name} ${post.user.lastname}`}</Text>
+              </View>
+              <View style={styles.headerText}>
+                <AntDesign name="clockcircleo" size={16} />
+  
+                <Text>{` ${time}`}</Text>
+              </View>
+  
+            </View>
+            <View>
+              {post.imageUrl && <View height={300}>
+                <Image source={{ uri: post.imageUrl }} style={styles.image} />
+              </View>}
+              <View style={styles.content}>
+                <Text>{post.content}</Text>
+              </View>
+              <View style={styles.footer}>
+                <View></View>
+                <LikeButton post={post} />
+              </View>
+            </View>
+          </CardView>
+    )
+
   const onChange = (text) => {
     setComment(text)
     setDisabledAddCommentButton(false)
-    if (text == "")
+    if (text == ""){
       setDisabledAddCommentButton(true)
+    }   
   }
+
+
   const handleAddComment = async () => {
     const token = await AsyncStorage.getItem('token')
     setAddLoadingComment(true)
@@ -72,38 +107,7 @@ export default function PostDetail({ route, navigation }) {
     setAddLoadingComment(false)
   }
 
-  const _renderComments = ( item ) => ( 
-  <CommentItem comment={item} postId={post.id} comments={comments} setComments={setComments} />
-  )
-
-  const _renderPost = () => (
-    <CardView>
-          <View style={styles.headerContainer}>
-            <View style={styles.headerText}>
-              <AntDesign name="user" size={16} />
-              <Text>{`${post.user.name} ${post.user.lastname}`}</Text>
-            </View>
-            <View style={styles.headerText}>
-              <AntDesign name="clockcircleo" size={16} />
-
-              <Text>{` ${time}`}</Text>
-            </View>
-
-          </View>
-          <View>
-            {post.imageUrl && <View height={300}>
-              <Image source={{ uri: post.imageUrl }} style={styles.image} />
-            </View>}
-            <View style={styles.content}>
-              <Text>{post.content}</Text>
-            </View>
-            <View style={styles.footer}>
-              <View></View>
-              <LikeButton post={post} />
-            </View>
-          </View>
-        </CardView>
-  )
+  
 
   
   return (
@@ -112,8 +116,6 @@ export default function PostDetail({ route, navigation }) {
         <FlatList
           data={comments}
           renderItem={_renderComments}
-          //onEndReached={onEndReached}
-          //ListHeaderComponent={_headerCompoenent}
           onEndReachedThreshold={1}
           keyExtractor={(item, index) => index.toString()}
           ListHeaderComponent={_renderPost}
@@ -123,8 +125,7 @@ export default function PostDetail({ route, navigation }) {
         loading_process={addLoadingComment}
         onChange={onChange}
         disabledButton={disabledAddCommentButton}
-        comment={comment}
-      />
+        comment={comment}/>
     </SafeAreaView>
   );
 }
@@ -134,6 +135,14 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     backgroundColor: 'white'
+  },
+  content: {
+    padding: 10,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 5,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -152,16 +161,5 @@ const styles = StyleSheet.create({
     height: undefined,
     width: undefined,
     resizeMode: 'cover',
-  },
-  content: {
-    padding: 10,
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 5,
-  },
-  commentsContainer: {
-
   }
 });
